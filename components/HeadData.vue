@@ -9,7 +9,7 @@
             <span class="head-iten-data">100х400 мм</span>
         </div>
         <div class="head-data-item">
-            <span class="head-item-text">Выдержка</span>
+            <span class="head-item-text">Выдержа</span>
             <span class="head-iten-data">60 мин.</span>
         </div>
         <div class="head-data-item-l">
