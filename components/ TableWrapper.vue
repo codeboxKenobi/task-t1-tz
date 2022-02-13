@@ -1,17 +1,18 @@
 <template>
     <div class="table-wrapper">
         <div class="melt">
-            <div class="melt-number">Плавка: {{meltData}}</div>
+            <div class="melt-number">Плавка: {{tasks.id}}</div>
             <div class="paginated">
-                <button class="paginated-button" type="button">
+                <button @click="prev" class="paginated-button" type="button">
                     <img src="/img/leftButton.svg" alt="">
                 </button>
-                <button class="paginated-button" type="button">
+                <button @click="next" class="paginated-button" type="button">
                     <img src="/img/rightButton.svg" alt="">
                 </button>
             </div>
         </div>
-        <HeadData />
+        <HeadData :tasks="tasks" />
+        <Details :tasks="tasks" />
     </div>
 </template>
 
@@ -19,8 +20,30 @@
     export default {
         data() {
             return {
-                meltData: 338110,
+                tasks: [],
+                page: 0
             }
+        },
+        methods: {
+            async getData(dta) {
+                if (dta == null ) {
+                    dta = 0
+                }
+                let response = await fetch('../tasks.json')
+                let taskData = await response.json()
+                    this.tasks = taskData[dta]
+                    console.log(this.tasks);
+                    console.log();
+            },
+            next() {
+                this.getData(this.page++ + 1)
+            },
+            prev() {
+                this.getData(this.page-- - 1)
+            }
+        },
+        mounted() {
+            this.getData()
         }
     }
 </script>
@@ -49,11 +72,12 @@
     height: 28px;
     width: 166px;
     margin-left: 16px;
+    color: $main-dark-grey;
     @include flex-start-center;
 }
 .paginated {
     height: 35px;
-    width: 70px;
+    width: 71px;
     margin-right: 16px;
     @include flex-between-center;
 }
