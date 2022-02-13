@@ -30,7 +30,7 @@
 <script>
     export default {
         props: {
-            tasks: Object
+            tasks: Array
         },
         data() {
             return {
