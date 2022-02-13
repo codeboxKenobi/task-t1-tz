@@ -3,10 +3,10 @@
         <div class="melt">
             <div class="melt-number">Плавка: {{tasks.id}}</div>
             <div class="paginated">
-                <button @click="prev" class="paginated-button" type="button">
+                <button :disabled="prevButtonDisabled" @click="prev" class="paginated-button" type="button">
                     <img src="/img/leftButton.svg" alt="">
                 </button>
-                <button @click="next" class="paginated-button" type="button">
+                <button :disabled="nextButtonDisabled" @click="next" class="paginated-button" type="button">
                     <img src="/img/rightButton.svg" alt="">
                 </button>
             </div>
@@ -21,25 +21,43 @@
         data() {
             return {
                 tasks: [],
-                page: 0
+                page: '',
+                prevButtonDisabled: false,
+                nextButtonDisabled: false,
             }
         },
         methods: {
             async getData(dta) {
-                if (dta == null ) {
-                    dta = 0
+                try {
+                    if (dta == null ) {
+                        dta = 0
+                    }
+                    let response = await fetch('../tasks.json')
+                    let taskData = await response.json()
+                        this.tasks = taskData[dta]
+                } catch (error) {
+                    console.log(error);
                 }
-                let response = await fetch('../tasks.json')
-                let taskData = await response.json()
-                    this.tasks = taskData[dta]
-                    console.log(this.tasks);
-                    console.log();
             },
             next() {
-                this.getData(this.page++ + 1)
+                console.log(this.page);
+                if (this.page == 2) {
+                    this.nextButtonDisabled = true
+                } else {
+                    this.nextButtonDisabled = false
+                    this.prevButtonDisabled = false
+                    this.getData(this.page++ + 1)
+                }
             },
-            prev() {
-                this.getData(this.page-- - 1)
+            prev() { 
+                console.log(this.page); 
+                if (this.page == 0) {
+                    this.prevButtonDisabled = true
+                } else {
+                    this.nextButtonDisabled = false
+                    this.prevButtonDisabled = false
+                    this.getData(this.page-- - 1)
+                }
             }
         },
         mounted() {
