@@ -14,7 +14,7 @@
         </div>
         <HeadData :tasks="tasks" />
         <Details :tasks="tasks" />
-        <Graph :tasks="tasks" />
+        <Graph :dataCollection="dataCollection" />
     </div>
     </div>
 </template>
@@ -25,6 +25,7 @@
             return {
                 tasks: {},
                 page: 0,
+                dataCollection: []
             }
         },
         methods: {
@@ -54,6 +55,14 @@
                          }
                     }
             },
+            getGraphData() {
+                this.dataCollection.push(this.tasks.graph.map(item => item[0]))
+                this.dataCollection.push(this.tasks.graph.map(item => item[1]))
+                console.log(this.dataCollection);
+            }
+        },
+        beforeUpdate() {
+            this.getGraphData()
         },
         mounted() {
             this.getData()
@@ -110,6 +119,7 @@
 .paginated-button {
     height: 35px;
     width: 35px;
+    background-color: transparent ;
     border: none;
     outline: none;
     @include flex-center-center;

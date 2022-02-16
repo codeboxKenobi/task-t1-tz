@@ -9,9 +9,10 @@
 import { Chart } from 'chart.js'
 
     export default {
+        
         props: {
-            tasks: {
-                type: Object
+            dataCollection: {
+                type: Array
             }
         },
         data() {
@@ -19,40 +20,41 @@ import { Chart } from 'chart.js'
                 firstLine: [],
                 secondLine: []
             }
+        },  
+        beforeMount() {
+            this.firstLine = this.dataCollection[0]
+            this.secondLine = this.dataCollection[1]
         },
-        methods: {
-            chunkArray(array, chunk) {
-            const newArray = [];
-            for (let i = 0; i < array.length; i += chunk) {
-                newArray.push(array.slice(i, i + chunk));
-            }
-                return newArray;
-            }
-        },
-
         mounted() {
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь","Ноябрь", "Декабрь"],
-                    datasets: [{ 
-                        data: [86,114,106,106,107,111,133],
-                        label: "Year",
-                        borderColor: "rgb(62,149,205)",
-                        backgroundColor: "rgb(62,149,205,0.1)",
-                        borderWidth:2
-                    },
-                    { 
-                        data: [16,114,46,58,77,61,133],
-                        label: "Year",
-                        borderColor: "rgb(62,19,205)",
-                        backgroundColor: "rgb(62,149,205,0.1)",
-                        borderWidth:2
-                    }]
-                },
-            })
-        },
+            console.log(this.firstLine);
+            this.insertChar()
+            
+        },  
+        methods: {
+            insertChar() {
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь","Ноябрь", "Декабрь"],
+                        datasets: [{ 
+                            data: this.firstLine,
+                            label: "Year1",
+                            borderColor: "rgb(62,149,205)",
+                            backgroundColor: "rgb(62,149,205,0.1)",
+                            borderWidth:2
+                        },
+                        { 
+                            data: this.secondLine,
+                            label: "Year2",
+                            borderColor: "rgb(62,19,205)",
+                            backgroundColor: "rgb(62,149,205,0.1)",
+                            borderWidth:2
+                        }]
+                    }, 
+                })
+            },
+        },        
     }
 </script>
 
