@@ -16,12 +16,16 @@
             <div class="descript-item-f"><span class="descript-item-text" >{{items.unit}}</span></div>
             <div class="descript-item">
                 <span class="descript-item-text" >
-                    {{new Date(items.date).toLocaleDateString()}}
+                    {{ getDate(items.date)}}
                 </span>
             </div>
-            <div class="descript-item"><span class="descript-item-text" >{{new Date(items.start).toLocaleDateString()}}</span></div>
+            <div class="descript-item"><span class="descript-item-text" >{{getDate(items.start)}}</span></div>
             <div class="descript-item"><span class="descript-item-text" >{{items.length}}</span></div>
-            <div class="descript-item"><span :style="[items.idle == true ? redPrice : greenPrice]"  class="descript-item-text" >{{checkIdle(items.idle)}}</span></div>
+            <div class="descript-item">
+                <span :class="[items.idle ? 'redPrice' : 'greenPrice']" class="descript-item-text" >
+                    {{ items.idle ? 'Да' : 'Нет' }}
+                </span>
+            </div>
             <div class="descript-item-l"><span class="descript-item-text" >{{items.type}}</span></div>
         </div>
     </div>
@@ -30,28 +34,15 @@
 <script>
     export default {
         props: {
-            tasks: Array
-        },
-        data() {
-            return {
-             
-                greenPrice: {
-                    color: '#14CDB7'
-                },
-                redPrice: {
-                    color: '#E73A82'
-                },
+            tasks: {
+                type: Object
             }
         },
         methods: {
-            checkIdle(dta) {
-                if (dta === true) {
-                    return 'Да'
-                } else {
-                    return 'Нет'
-                }
+            getDate(dateInFormat) {
+                return new Date(dateInFormat).toLocaleDateString()
             }
-        }
+        },
     }
 </script>
 
@@ -59,7 +50,7 @@
 @import 'static/style/styles.scss';
 
 .details {
-    height: 525px;
+    min-height: 400px;
     max-width: 1200px;
     width: 100%;
     margin-top: 10px;
@@ -200,5 +191,12 @@
     letter-spacing: -0.025em;
     color: $main-grey;
     border-bottom: $item-line-color;
+}
+
+.greenPrice {
+    color: #18CDB3;
+}
+.redPrice {
+    color: #E73A82;
 }
 </style>

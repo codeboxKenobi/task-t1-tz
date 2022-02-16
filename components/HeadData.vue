@@ -2,7 +2,7 @@
     <div class="head-data">
         <div class="head-data-item-f">
             <span class="head-item-text">Дата</span>
-            <span class="head-item-data">{{new Date(tasks.date).toLocaleDateString()}}</span>
+            <span class="head-item-data">{{getDate(tasks.date)}}</span>
         </div>
         <div class="head-data-item">
             <span class="head-item-text">Размер</span>
@@ -11,31 +11,29 @@
         <div class="head-data-item">
             <span class="head-item-text">Выдержа</span>
             <span 
-                :style="[tasks.exposure > 100 ? redPrice : greenPrice]"
+                :class="[tasks.exposure > 100 ? 'redPrice' : 'greenPrice']"
                 class="head-item-data-x">{{tasks.exposure}} мин.</span>
         </div>
         <div class="head-data-item-l">
             <span class="head-item-text">Оборот</span>
             <span 
-                :style="[tasks.turn > 100 ? redPrice : greenPrice]" 
+                :class="[tasks.turn > 100 ? 'redPrice' : 'greenPrice']" 
                 class="head-item-data-x">{{tasks.turn}} мин.</span>
         </div>
     </div>
 </template>
 
 <script>
+
     export default {
         props: {
-            tasks: Array
+            tasks: {
+                type: Object
+            }
         },
-        data() {
-            return {
-                greenPrice: {
-                    color: '#18CDB3'
-                },
-                redPrice: {
-                    color: '#E73A82'
-                },
+        methods: {
+            getDate(dateInFormat) {
+                return new Date(dateInFormat).toLocaleDateString()
             }
         },
     }
@@ -128,5 +126,12 @@
     line-height: 33px;
     letter-spacing: -0.04em;
     color: $main-dark-grey;
+}
+
+.greenPrice {
+    color: #18CDB3;
+}
+.redPrice {
+    color: #E73A82;
 }
 </style>

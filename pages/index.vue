@@ -1,5 +1,5 @@
 <template>
-  <AppWrapper />
+  <TableWrapper />
 </template>
 
 <script>

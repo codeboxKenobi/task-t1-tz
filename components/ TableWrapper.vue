@@ -1,5 +1,6 @@
 <template>
-    <div class="table-wrapper">
+    <div class="app-wrapper">
+        <div class="table-wrapper">
         <div class="melt">
             <div class="melt-number">Плавка: {{tasks.id}}</div>
             <div class="paginated">
@@ -13,6 +14,8 @@
         </div>
         <HeadData :tasks="tasks" />
         <Details :tasks="tasks" />
+        <Graph :tasks="tasks" />
+    </div>
     </div>
 </template>
 
@@ -20,25 +23,24 @@
     export default {
         data() {
             return {
-                tasks: [],
+                tasks: {},
                 page: '',
                 prevButtonDisabled: false,
                 nextButtonDisabled: false,
             }
         },
         methods: {
-            async getData(dta) {
+            async getData(data) {
                 try {
-                    if (dta == null ) {
-                        dta = 0
-                    }
+                    data == null ? data = 0 : data
                     let response = await fetch('../tasks.json')
                     let taskData = await response.json()
-                        this.tasks = taskData[dta]
+                        this.tasks = taskData[data]
                 } catch (error) {
                     console.log(error);
                 }
             },
+     
             next() {
                 console.log(this.page);
                 if (this.page == 2) {
@@ -69,9 +71,18 @@
 <style lang="scss" scoped>
 @import 'static/style/styles.scss';
 
+.app-wrapper {
+    height: auto;
+    width: 100%;
+    padding-bottom: 20px;
+    background-color: #F1F3F6;
+    @include flex-center-center;
+}
+
 
 .table-wrapper {
-    max-height: 694px;
+    margin-top: 10px;
+    max-height: auto;
     height: 94%;
     max-width: 1200px;
     width: 94%;
