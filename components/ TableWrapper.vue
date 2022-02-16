@@ -4,11 +4,11 @@
         <div class="melt">
             <div class="melt-number">Плавка: {{tasks.id}}</div>
             <div class="paginated">
-                <button :disabled="prevButtonDisabled" @click="prev" class="paginated-button" type="button">
-                    <img src="/img/leftButton.svg" alt="">
+                <button @click="pageRevers" class="paginated-button" type="button">
+                    <img id="prev" src="/img/leftButton.svg" alt="">
                 </button>
-                <button :disabled="nextButtonDisabled" @click="next" class="paginated-button" type="button">
-                    <img src="/img/rightButton.svg" alt="">
+                <button @click="pageRevers" class="paginated-button" type="button">
+                    <img id="next" src="/img/rightButton.svg" alt="">
                 </button>
             </div>
         </div>
@@ -24,9 +24,7 @@
         data() {
             return {
                 tasks: {},
-                page: '',
-                prevButtonDisabled: false,
-                nextButtonDisabled: false,
+                page: 0,
             }
         },
         methods: {
@@ -40,30 +38,28 @@
                     console.log(error);
                 }
             },
-     
-            next() {
-                console.log(this.page);
-                if (this.page == 2) {
-                    this.nextButtonDisabled = true
-                } else {
-                    this.nextButtonDisabled = false
-                    this.prevButtonDisabled = false
-                    this.getData(this.page++ + 1)
-                }
+            pageRevers(event) {
+                    if (event.target.id == 'next') {
+                        document.getElementById('prev').style.display = ''
+                         this.getData(this.page = this.page++ + 1)
+                         if (this.page == 2) {
+                             event.target.style.display = 'none'
+                         }
+                    }
+                    else if (event.target.id == 'prev') {
+                        document.getElementById('next').style.display = ''
+                        this.getData(this.page-- - 1)
+                        if (this.page == 0) {
+                             event.target.style.display = 'none'
+                         }
+                    }
             },
-            prev() { 
-                console.log(this.page); 
-                if (this.page == 0) {
-                    this.prevButtonDisabled = true
-                } else {
-                    this.nextButtonDisabled = false
-                    this.prevButtonDisabled = false
-                    this.getData(this.page-- - 1)
-                }
-            }
         },
         mounted() {
             this.getData()
+            if (this.page == 0) {
+                document.getElementById('prev').style.display = 'none'
+            }
         }
     }
 </script>
@@ -108,6 +104,7 @@
     height: 35px;
     width: 71px;
     margin-right: 16px;
+    border-radius: 10px;
     @include flex-between-center;
 }
 .paginated-button {
