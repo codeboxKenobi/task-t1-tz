@@ -20,7 +20,6 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@types/chart.js": "^2.9.35",
     "sass": "^1.49.7",
     "sass-loader": "^10.2.1"
   }

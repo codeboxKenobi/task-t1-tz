@@ -1,6 +1,5 @@
 <template>
     <div class="details">
-
         <div class="melt-table">
             <div class="melt-table-head-text">Сводная таблица</div>
         </div>
